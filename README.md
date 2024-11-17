@@ -5,13 +5,15 @@
 
 | Date Started | Date Completed |
 | ------ | ------ |
-| 01/01/2020 | --/--/-- |
+| 16/11/2024 | 17/11/2024 |
 
-Create a simple tool capable of converting small video clips into gifs of that clip drawn in ASCII.
+A simple tool capable of converting gifs into gifs drawn in ASCII.
 
-[GIF of usage]
+![](https://github.com/andrew-data-git/ascii_art/blob/main/river.gif)
+
+![](https://github.com/andrew-data-git/ascii_art/blob/main/ascii_gif.gif)
 
 ## Features
 
-- feature 1
-- feature 2
+- Can set resolution to downsample to
+- Custom ASCII palette can be set

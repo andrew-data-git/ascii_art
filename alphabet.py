@@ -1,62 +1,29 @@
 import random
 
+
 class Alphabet:
-    """
-    A class to generate an Alphabet, for use in generating ASCII images.
-
-    Attributes:
-        alphabet : str
-            A default alphabet, ranging from 'dark' to 'light' characters
-    Methods:
-        update_alphabet(chars)
-            Updates the default alphabet if user required
-        create()
-            Forms the Alphabet object based on user input, and matches in a dict with number 0 -> 255 for lookups
-    """
-    alphabet = "#@%$8WMXHQ35420/xzoes+=~-"
-
-    def __init__(self, size, chars=None):
-        """
-        Parameters
-        :param size:
-        :param chars:
-        """
+    """A class to generate an Alphabet, for use in generating ASCII images."""
+    def __init__(self, size: int) -> None:
+        self.alphabet = "#@%$8WMXHQ35420/xzoes+=~-"
         self.size = size
-        if chars is None:
-            self.raw = None
-            print("Using base alphabet.")
-        else:
-            self.raw = chars
-            self.update_alphabet(chars)
-        self.chars = self.create()
+        self.create() # Make the self.chars attribute
 
     def __len__(self):
-        """Returns the length of the alphabet string before/after processing"""
-        print("Length of raw alphabet = 25")
-        len(self.chars) # TODO make this actually work
-
-    def update_alphabet(self, chars):
-        """Updates the default alphabet if user required"""
-        # remove duplicates and set as alphabet
-        self.alphabet = "".join(dict.fromkeys(chars))
+        len(self.chars)
 
     def create(self):
         """Forms the Alphabet object based on user input, and matches in a dict with number 0 -> 255 for lookups"""
-        # pick the chars from alphabet
+        # Pick the chars from alphabet
+        random.seed(1)
         try:
             indices = sorted(random.sample(range(len(self.alphabet)), self.size))
         except:
-            raise ValueError("Too large. Requested size exceeds total length of unique characters.")
-        chars = ''.join(self.alphabet[index] for index in indices)
-
+            raise ValueError(f"Choose another size for alphabet. Size = {self.size} > {len(self.alphabet)}")
+        
         colour_count = int(255 / self.size)
-        colour_chars = "".join([char * colour_count for char in chars])
+        colour_chars = "".join([char * colour_count for char in ''.join(self.alphabet[index] for index in indices)])
 
-        # catch missing characters, replace with last character
+        # Catch missing characters, replace with last character
         if len(colour_chars) < 256:
             colour_chars = colour_chars + colour_chars[-1] * (256 - len(colour_chars))
-
-        # form into dictionary
-        print(f"Character set of size {self.size} characters created from input: {self.raw}.")
-        print(f"Alphabet = {chars}")
-        return dict(enumerate(colour_chars))
+        self.chars = dict(enumerate(colour_chars))

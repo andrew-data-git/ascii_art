@@ -1,0 +1,1 @@
+clean up and get running on linux, with an example mp4 of some hobbits
