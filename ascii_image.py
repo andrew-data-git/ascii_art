@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 class AsciiImage:
     '''Class to hold an ascii representation of an image'''
-    def __init__(self, alphabet:dict, frame=None, simp_rate=0.1):
+    def __init__(self, alphabet:dict, frame=None, simp_rate=0.1, cell_size=20):
         if frame==None: # capture raw greyscale image
             print('No path specified! Defaulting to Gollum.')
             self.raw_image = Image.open(Path('gollum.png')).convert('L')
@@ -16,7 +16,7 @@ class AsciiImage:
             self.raw_image = frame.convert('L')#Image.open(Path('gollum.png')).convert('L')
         self._coerce_image(simp_rate) # make self.simple_image
         self.alphabet = alphabet
-        self._convert_to_ascii_image() # make self.ascii_image
+        self._convert_to_ascii_image(cell_size=cell_size) # make self.ascii_image
 
     def _coerce_image(self, simp_rate):
         '''Decreasing image resolution, maintain original size.'''
@@ -25,14 +25,13 @@ class AsciiImage:
         self.image = self.raw_image.resize((w2,h2), Image.Resampling.LANCZOS) # downsample
         # self.image = self.image.resize((width, height), Image.Resampling.LANCZOS)# upscale
 
-    def _convert_to_ascii_image(self):
+    def _convert_to_ascii_image(self, cell_size):
         '''Take the processed self.image and convert into ascii.'''
         map_func = np.vectorize(self.alphabet.chars.get)
         self._np_array = np.asarray(self.image) # store the np array if needed
         self._ascii_array = map_func(self._np_array) # store the ascii array if needed
 
         # Make blank canvas
-        cell_size = 20
         w, h = self.image.size
         canvas = Image.new(mode="RGB", 
                            size=(w*cell_size, h*cell_size), 
